@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sinc.shinsteller.video">
+	<update id="plusVODcnt">
+		UPDATE SST_VOD
+		SET	VOD_VIEWCNT = VOD_VIEWCNT + 1
+		WHERE	VOD_ID = 0
+	</update>
+	
+	<select id="selectFirstVODResult"
+			parameterType="int"
+			resultType="vidoeDTO">
+		SELECT NVL(CTG_NAME, '') AS CTG_NAME, NVL(MAP_WORD, '') AS MAP_WORD, RES_TIMESTMP
+		FROM SST_VODRESULT V
+		LEFT JOIN SST_DICTIONARY D  ON (V.RES_DICID = D.DIC_ID)
+		LEFT JOIN SST_MAPPING M ON (V.RES_MAPID = M.MAP_ID)
+		LEFT JOIN SST_CATEGORY C ON (V.RES_CTGID = C.CTG_ID)
+	 	WHERE	CTG_INIT = 'y'
+	 	AND	CTG_NAME IS NOT NULL
+	 	AND	RES_VODID = #{ vod_id }
+	 	ORDER BY	V.RES_CTGID, V.RES_MAPID DESC, V.RES_DICID, V.RES_TIMESTMP
+	</select>
+	
+	<select id="selectAllVODResult"
+			parameterType="int"
+			resultType="vidoeDTO">
+		SELECT NVL(CTG_NAME, '') AS CTG_NAME, NVL(MAP_WORD, '') AS MAP_WORD, RES_TIMESTMP
+		FROM SST_VODRESULT V
+		LEFT JOIN SST_DICTIONARY D  ON (V.RES_DICID = D.DIC_ID)
+		LEFT JOIN SST_MAPPING M ON (V.RES_MAPID = M.MAP_ID)
+		LEFT JOIN SST_CATEGORY C ON (V.RES_CTGID = C.CTG_ID)
+		WHERE	RES_VODID = #{ vod_id }
+		AND	CTG_NAME IS NOT NULL
+	 	ORDER BY	V.RES_CTGID, V.RES_MAPID DESC, V.RES_DICID, V.RES_TIMESTMP
+	</select>
+	
+	<select id="selectall" 
+		parameterType="int"
+		resultType="vidoeDTO">
+		SELECT CTG_NAME, NVL(MAP_WORD, '') AS MAP_WORD, RES_TIMESTMP
+		FROM SST_VODRESULT V
+		LEFT JOIN SST_DICTIONARY D  ON (V.RES_DICID = D.DIC_ID)
+		LEFT JOIN SST_MAPPING M ON (V.RES_MAPID = M.MAP_ID)
+		LEFT JOIN SST_CATEGORY C ON (V.RES_CTGID = C.CTG_ID)
+		WHERE CTG_NAME IS NOT NULL
+		AND	RES_VODID = #{ vod_id }
+		ORDER BY	V.RES_CTGID, V.RES_MAPID DESC, V.RES_DICID, V.RES_TIMESTMP
+	</select>
+</mapper>  
+
+
+
+
+
+
+
+
+
+
+

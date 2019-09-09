@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.sinc.shinsteller.product">
+	<select id="selectProduct"
+			parameterType="int"
+			resultType="product">
+		SELECT PRDNO, PRDNAME, PRDTITLE, PRICE, BRAND, MANUFACTURER, CATEGORY1, CATEGORY2, VOD_NAME
+		FROM SST_PRODUCTS P
+		LEFT JOIN SST_VOD V ON (P.PRDNO = V.VOD_PRDNO)
+		WHERE PRDNO= #{ prdno }
+	</select>
+</mapper>  
+
+
+
+
+
+
+
+
+
+
+
